@@ -10,17 +10,31 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class CharacterPresenter constructor(view: CharacterView,
-                         private val getCharacterServiceUseCase: GetCharacterServiceUseCase,
-                         private val getCharacterRepositoryUseCase: GetCharacterRepositoryUseCase,
-                         private val saveCharacterRepositoryUseCase: SaveCharacterRepositoryUseCase,
-                         val subscriptions: CompositeDisposable) : Presenter<CharacterView>(view) {
+                                     private val getCharacterServiceUseCase: GetCharacterServiceUseCase,
+                                     private val getCharacterRepositoryUseCase: GetCharacterRepositoryUseCase,
+                                     private val saveCharacterRepositoryUseCase: SaveCharacterRepositoryUseCase,
+                                     val subscriptions: CompositeDisposable) : Presenter<CharacterView>(view) {
 
     lateinit var characters: List<Character>
+
     fun init() {
         view.init()
+        val dis = view.viewEventObservable.subscribe { event ->
+            when (event) {
+                Refresh -> {
+                    view.showLoading()
+                    requestGetCharacters()
+                }
+            }
+        }
+        subscriptions.add(dis)
+        refresh()
+    }
+
+    private fun refresh() {
         characters = getCharacterRepositoryUseCase.invoke()
         if (characters.isEmpty()) {
-            requestGetCharacters()
+
         } else {
             view.hideLoading()
             view.showCharacters(characters)

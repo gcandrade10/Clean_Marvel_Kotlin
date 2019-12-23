@@ -29,7 +29,12 @@ ext {
             rxAndroid : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             rxJava    : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             appSupport: "com.android.support:appcompat-v7:${appSupportVersion}",
-            kotlin    : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+            kotlin    : "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}",
+            rxbinding : "com.jakewharton.rxbinding3:rxbinding:3.1.0",
+            supportDesign :  "com.android.support:design:${appSupportVersion}",
+            constraintLayout :  "com.android.support.constraint:constraint-layout:1.1.3"
+
+
     ]
 
     generalTestDependencies = [

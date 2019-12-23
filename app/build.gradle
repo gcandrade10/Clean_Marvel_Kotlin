@@ -38,8 +38,10 @@ dependencies {
     implementation generalDependencies.rxAndroid,
             generalDependencies.rxJava,
             generalDependencies.appSupport,
-            generalDependencies.kotlin
-
+            generalDependencies.kotlin,
+            generalDependencies.rxbinding,
+            generalDependencies.supportDesign,
+            generalDependencies.constraintLayout
 
     implementation appDependencies.picasso,
             appDependencies.recyclerView,
@@ -49,7 +51,6 @@ dependencies {
             generalTestDependencies.junit,
             generalTestDependencies.mockitoInline,
             generalTestDependencies.kotlinTest
-
 
 }
 

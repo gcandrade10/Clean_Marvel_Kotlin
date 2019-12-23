@@ -3,17 +3,25 @@ package com.puzzlebench.clean_marvel_kotlin.presentation.mvp
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.puzzlebench.clean_marvel_kotlin.R
+import com.puzzlebench.clean_marvel_kotlin.presentation.DetailActivity
 import com.puzzlebench.cmk.domain.model.Character
 import com.puzzlebench.clean_marvel_kotlin.presentation.MainActivity
 import com.puzzlebench.clean_marvel_kotlin.presentation.adapter.CharacterAdapter
 import com.puzzlebench.clean_marvel_kotlin.presentation.extension.showToast
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.ref.WeakReference
+import com.jakewharton.rxbinding3.view.clicks
 
 class CharacterView(activity: MainActivity) {
     private val activityRef = WeakReference(activity)
     private val SPAN_COUNT = 1
-    var adapter = CharacterAdapter { character -> activity.applicationContext.showToast(character.name) }
+    private var adapter = CharacterAdapter {
+        character -> activity.startActivity(DetailActivity.getIntent(activity,character)) }
+
+    lateinit var viewEventObservable: Observable<EventTypes>
+
+
 
     fun init() {
         val activity = activityRef.get()
@@ -21,6 +29,7 @@ class CharacterView(activity: MainActivity) {
             activity.recycleView.layoutManager = GridLayoutManager(activity, SPAN_COUNT)
             activity.recycleView.adapter = adapter
             showLoading()
+            viewEventObservable = activity.fab.clicks().map<EventTypes> { Refresh }
         }
 
     }
