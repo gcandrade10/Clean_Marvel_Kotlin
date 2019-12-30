@@ -34,7 +34,7 @@ class CharacterPresenter constructor(view: CharacterView,
     private fun refresh() {
         characters = getCharacterRepositoryUseCase.invoke()
         if (characters.isEmpty()) {
-
+            requestGetCharacters()
         } else {
             view.hideLoading()
             view.showCharacters(characters)
