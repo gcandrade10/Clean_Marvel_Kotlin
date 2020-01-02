@@ -21,15 +21,12 @@ class CharacterView(activity: MainActivity) {
 
     lateinit var viewEventObservable: Observable<EventTypes>
 
-
-
     fun init() {
         val activity = activityRef.get()
         if (activity != null) {
             activity.recycleView.layoutManager = GridLayoutManager(activity, SPAN_COUNT)
             activity.recycleView.adapter = adapter
             showLoading()
-            viewEventObservable = activity.fab.clicks().map<EventTypes> { Refresh }
         }
 
     }
@@ -39,7 +36,6 @@ class CharacterView(activity: MainActivity) {
         if (activity != null) {
             val message = activity.baseContext.resources.getString(R.string.message_no_items_to_show)
             activity.applicationContext.showToast(message)
-
         }
     }
 
@@ -57,6 +53,5 @@ class CharacterView(activity: MainActivity) {
 
     fun showLoading() {
         activityRef.get()!!.progressBar.visibility = View.VISIBLE
-
     }
 }

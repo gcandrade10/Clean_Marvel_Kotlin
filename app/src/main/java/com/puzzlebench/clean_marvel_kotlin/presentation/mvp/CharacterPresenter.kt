@@ -19,15 +19,7 @@ class CharacterPresenter constructor(view: CharacterView,
 
     fun init() {
         view.init()
-        val dis = view.viewEventObservable.subscribe { event ->
-            when (event) {
-                Refresh -> {
-                    view.showLoading()
-                    requestGetCharacters()
-                }
-            }
-        }
-        subscriptions.add(dis)
+
         refresh()
     }
 

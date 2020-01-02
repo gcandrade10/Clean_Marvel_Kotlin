@@ -1,42 +1,35 @@
 package com.puzzlebench.clean_marvel_kotlin.presentation
 
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.puzzlebench.clean_marvel_kotlin.R
+import com.puzzlebench.clean_marvel_kotlin.databinding.ActivityMainBinding
 import com.puzzlebench.clean_marvel_kotlin.presentation.base.BaseRxActivity
-import com.puzzlebench.clean_marvel_kotlin.presentation.mvp.CharacterPresenter
 import com.puzzlebench.clean_marvel_kotlin.presentation.mvp.CharacterView
-import com.puzzlebench.cmk.data.mapper.repository.CharacterMapperRepository
-import com.puzzlebench.cmk.data.repository.CharacterDataRepository
-import com.puzzlebench.cmk.data.repository.source.CharacterDataSourceImpl
-import com.puzzlebench.cmk.data.service.CharacterServicesImpl
-import com.puzzlebench.cmk.domain.usecase.GetCharacterRepositoryUseCase
-import com.puzzlebench.cmk.domain.usecase.GetCharacterServiceUseCase
-import com.puzzlebench.cmk.domain.usecase.SaveCharacterRepositoryUseCase
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseRxActivity() {
 
-    private val getCharacterServiceUseCase = GetCharacterServiceUseCase(CharacterServicesImpl())
-    private val getCharacterRepositoryUseCase = GetCharacterRepositoryUseCase(CharacterDataRepository(CharacterDataSourceImpl(), CharacterMapperRepository()))
-    private val saveCharacterRepositoryUseCase = SaveCharacterRepositoryUseCase(CharacterDataRepository(CharacterDataSourceImpl(), CharacterMapperRepository()))
+    private val view = CharacterView(this)
 
-    private val presenter = CharacterPresenter(CharacterView(this),
-            getCharacterServiceUseCase,
-            getCharacterRepositoryUseCase,
-            saveCharacterRepositoryUseCase,
-            subscriptions)
+    private val mainViewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.vm = mainViewModel
+        view.init()
 
-    override fun onResume() {
-        super.onResume()
-        presenter.init()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.subscriptions.dispose()
+        mainViewModel.getEvents().observe(this, Observer<MainEvents> {
+            when (it) {
+                ShowToastNoItemToShow -> view.showToastNoItemToShow()
+                HideLoading -> view.hideLoading()
+                is ShowToastNetworkError -> view.showToastNetworkError(it.message)
+                is ShowCharacters -> view.showCharacters(it.characters)
+                Refresh -> view.showLoading()
+            }
+        })
+        mainViewModel.loadCharacters()
     }
 }
