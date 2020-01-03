@@ -61,7 +61,11 @@ dependencies {
     testImplementation generalTestDependencies.mockito,
             generalTestDependencies.junit,
             generalTestDependencies.mockitoInline,
-            generalTestDependencies.kotlinTest
+            generalTestDependencies.kotlinTest,
+            generalTestDependencies.koin,
+            generalTestDependencies.coreTesting,
+            generalTestDependencies.schedulerRule
+
 
 }
 

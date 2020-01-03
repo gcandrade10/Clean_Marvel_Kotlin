@@ -11,22 +11,12 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 
-class MainViewModel(private val getCharacterServiceUseCase: GetCharacterServiceUseCase,
+class MainViewModel(val getCharacterServiceUseCase: GetCharacterServiceUseCase,
                     private val saveCharacterRepositoryUseCase: SaveCharacterRepositoryUseCase) : ViewModel() {
 
     private val subscriptions = CompositeDisposable()
 
-    private val characters: MutableLiveData<List<Character>> by lazy {
-        MutableLiveData<List<Character>>().also {
-            loadCharacters()
-        }
-    }
-
     private val events = MutableLiveData<MainEvents>()
-
-    fun getCharacters(): LiveData<List<Character>> {
-        return characters
-    }
 
     fun loadCharacters() {
         requestGetCharacters()

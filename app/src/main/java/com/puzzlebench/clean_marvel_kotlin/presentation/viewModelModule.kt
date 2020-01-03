@@ -17,7 +17,7 @@ val viewModelModule = module {
 
 }
 
-val useCaseMOdule = module {
+val useCaseModule = module {
     single<CharacterServices> { CharacterServicesImpl() }
     single { GetCharacterServiceUseCase(get()) }
 

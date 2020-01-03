@@ -30,6 +30,9 @@ ext {
     //koin DI
     koin_version = '2.0.1'
 
+    core_testing_version = '2.0.0'
+    scheduler_rule_version = '1.0.2'
+
 
     generalDependencies = [
             rxAndroid : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
@@ -48,6 +51,9 @@ ext {
             junit        : "junit:junit:${jUnitVersion}",
             kotlinTest   : "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
             mockitoInline: "org.mockito:mockito-inline:${mockitoInlineVersion}",
+            koin: "org.koin:koin-test:$koin_version",
+            coreTesting: "androidx.arch.core:core-testing:$core_testing_version",
+            schedulerRule: "com.github.Plastix.RxSchedulerRule:rx2:$scheduler_rule_version"
     ]
 
     appDependencies = [
