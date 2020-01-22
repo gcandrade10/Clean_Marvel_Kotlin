@@ -2,7 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -14,7 +15,7 @@ android {
         targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
 
@@ -22,6 +23,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
+
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -38,8 +47,12 @@ dependencies {
     implementation generalDependencies.rxAndroid,
             generalDependencies.rxJava,
             generalDependencies.appSupport,
-            generalDependencies.kotlin
-
+            generalDependencies.kotlin,
+            generalDependencies.rxbinding,
+            generalDependencies.supportDesign,
+            generalDependencies.constraintLayout,
+            generalDependencies.viewmodel,
+            generalDependencies.koin
 
     implementation appDependencies.picasso,
             appDependencies.recyclerView,
@@ -48,7 +61,10 @@ dependencies {
     testImplementation generalTestDependencies.mockito,
             generalTestDependencies.junit,
             generalTestDependencies.mockitoInline,
-            generalTestDependencies.kotlinTest
+            generalTestDependencies.kotlinTest,
+            generalTestDependencies.koin,
+            generalTestDependencies.coreTesting,
+            generalTestDependencies.schedulerRule
 
 
 }
