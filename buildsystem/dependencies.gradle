@@ -1,6 +1,6 @@
 ext {
     //Android
-    androidMinSdkVersion = 15
+    androidMinSdkVersion = 16
     androidTargetSdkVersion = 26
     androidCompileSdkVersion = 26
 
@@ -48,7 +48,9 @@ ext {
     dataDependencies = [
             retrofit         : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitConverter: "com.squareup.retrofit2:converter-gson:${retrofitConverterGsonVersion}",
-            retrofitAdapterRX: "com.squareup.retrofit2:adapter-rxjava2:${retrofitAdapterRXVersion}"
+            retrofitAdapterRX: "com.squareup.retrofit2:adapter-rxjava2:${retrofitAdapterRXVersion}",
+            okhttpprofiler : "com.localebro:okhttpprofiler:1.0.8"
+
     ]
 
 

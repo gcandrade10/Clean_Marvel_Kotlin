@@ -1,5 +1,6 @@
 package com.puzzlebench.cmk.data.service
 
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.puzzlebench.cmk.data.BuildConfig
 import com.puzzlebench.cmk.data.service.MarvelRequestGenerator.Companion.MD5_ALGORITHM
 import com.puzzlebench.cmk.data.service.MarvelRequestGenerator.Companion.PAD_CHAR
@@ -42,11 +43,6 @@ class MarvelRequestGenerator {
         chain.proceed(requestBuilder.build())
     }
 
-    private val builder = Retrofit.Builder()
-            .baseUrl(BuildConfig.MARVEL_BASE_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-
 
     private fun makeMarvelService(okHttpClient: OkHttpClient): MarvelApi {
         val retrofit = Retrofit.Builder()
@@ -59,6 +55,9 @@ class MarvelRequestGenerator {
     }
 
     fun makeMarvelService(): MarvelApi {
+        if (BuildConfig.DEBUG) {
+            httpClient.addInterceptor(OkHttpProfilerInterceptor())
+        }
         val okHttpClient = httpClient.build()
         return makeMarvelService(okHttpClient)
     }
